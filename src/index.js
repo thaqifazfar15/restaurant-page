@@ -26,18 +26,28 @@ function page() {
   function borderBottom(index) {
     for (let i = 0; i < 3; i++) {
       if (index == i) {
-        tabs.childNodes[i].style.borderBottom = "1px solid white";
-      } else tabs.childNodes[i].style.borderBottom = "none";
+        tabs.childNodes[i].style.borderBottom = "1px solid rgba(255,255,255,1)";
+      } else
+        tabs.childNodes[i].style.borderBottom = "1px solid rgba(255,255,255,0)";
     }
+  }
+
+  function setComponents(index) {
+    if (currentIndex == index) return;
+    content.childNodes[1].remove();
+    return components[index]();
   }
 
   ["Home", "Menu", "Contact"].map((e, index) => {
     const button = document.createElement("button");
-    button.addEventListener("click", components[index]);
+    button.addEventListener("click", () => {
+      setComponents(index);
+      currentIndex = index;
+    });
     button.addEventListener("click", () => {
       borderBottom(index);
     });
-    button.classList = e.toLowerCase();
+    // button.classList = e.toLowerCase();
     button.textContent = e;
     tabs.appendChild(button);
   });
@@ -48,3 +58,4 @@ function page() {
 }
 
 document.body.appendChild(page());
+home();
